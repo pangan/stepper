@@ -31,7 +31,10 @@ GPIO.setmode(GPIO.BCM)
 # Define GPIO signals to use
 # Physical pins 11,15,16,18
 # GPIO17,GPIO22,GPIO23,GPIO24
-StepPins = [17,22,23,24]
+if sys.argv[2]=='l':
+	StepPins = [4,17,27,22]
+else:
+	StepPins = [18,23,24,25]
 
 # Set all pins as output
 for pin in StepPins:
@@ -48,11 +51,16 @@ Seq = [[1,0,0,0],
        [0,0,1,0],
        [0,0,1,1],
        [0,0,0,1],
-       [1,0,0,1]]
+       [1,0,0,1]
+       
+]
        
 StepCount = len(Seq)-1
-StepDir = 2 # Set to 1 or 2 for clockwise
+if sys.argv[3]=='b':
+	StepDir = -1 # Set to 1 or 2 for clockwise
             # Set to -1 or -2 for anti-clockwise
+else:
+	StepDir = 1
 
 # Read wait time from command line
 if len(sys.argv)>1:
