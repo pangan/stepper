@@ -34,15 +34,16 @@ GPIO.setmode(GPIO.BCM)
 # Physical pins 11,15,16,18
 # GPIO17,GPIO22,GPIO23,GPIO24
 #if sys.argv[2]=='l':
-StepPins = [4,17,27,22]
+#StepPins = [4,17,27,22]
 #else:
-#StepPins = [18,23,24,25]
+motors = [[18,23,24,25],[4,17,27,22]]
 
 # Set all pins as output
-for pin in StepPins:
-  print "Setup pins"
-  GPIO.setup(pin,GPIO.OUT)
-  GPIO.output(pin, False)
+for StepPins in motors:
+  for pin in StepPins:
+    print "Setup pins"
+    GPIO.setup(pin,GPIO.OUT)
+    GPIO.output(pin, False)
 
 # Define advanced sequence
 # as shown in manufacturers datasheet
@@ -108,16 +109,16 @@ while True:
     StepDir = -1
 
 
-
-  for pin in range(0, 4):
-    xpin = StepPins[pin]
-    #print StepCounter
-    #print pin
-    if Seq[StepCounter][pin]!=0:
-      #print " Step %i Enable %i" %(StepCounter,xpin)
-      GPIO.output(xpin, True)
-    else:
-      GPIO.output(xpin, False)
+  for StepPins in motors:
+    for pin in range(0, 4):
+      xpin = StepPins[pin]
+      #print StepCounter
+      #print pin
+      if Seq[StepCounter][pin]!=0:
+        #print " Step %i Enable %i" %(StepCounter,xpin)
+        GPIO.output(xpin, True)
+      else:
+        GPIO.output(xpin, False)
 
   StepCounter += StepDir
 
