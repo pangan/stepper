@@ -58,25 +58,13 @@ Seq = [[1,0,0,0],
        [1,0,0,1]
        
 ]
-"""
-Seq = [[1,0,0,0],
-       [1,0,0,1],
-       [0,0,0,1],
-       [0,0,1,1],
-       [0,0,1,0],
-       [0,1,1,0],
-       [0,1,0,0],
-       [1,1,0,0]
-       
-]
-"""
 
-StepCount = len(Seq)-1
+StepCount = [len(Seq)-1, len(Seq)-1]
 #if sys.argv[3]=='b':
 #	StepDir = -1 # Set to 1 or 2 for clockwise
             # Set to -1 or -2 for anti-clockwise
 #else:
-StepDir = 1
+StepDir= [1,1]
 
 # Read wait time from command line
 if len(sys.argv)>1:
@@ -85,7 +73,7 @@ else:
   WaitTime = 1/float(1000)
 
 # Initialise variables
-StepCounter = 0
+StepCounter = [0,0]
 
 
 
@@ -93,6 +81,7 @@ StepCounter = 0
 # Start main loop
 global read_key
 read_key = ''
+START = False
 
 threading.Thread(target = getchar).start()
 print "Press x to exit!"
@@ -103,31 +92,54 @@ while True:
       exit(1)
   elif read_key == chr(65):
     ''' UP '''
-    StepDir = 1
+    StepDir = [1,1]
+    read_key = ''
   elif read_key == chr(66):
     ''' Down '''
-    StepDir = -1
+    StepDir = [-1,-1]
+    read_key = ''
+  elif read_key == chr(67):
+    ''' Right '''
+    StepDir = [1,-1]
+    read_key = ''
+  elif read_key == chr(68):
+    ''' Left ''' 
+    StepDir = [-1,1]
+    read_key = '' 
+
+  elif read_key == chr(13):
+    if START:
+      START = False
+    else:
+      START = True
+    read_key = ''
 
 
-  for StepPins in motors:
-    for pin in range(0, 4):
-      xpin = StepPins[pin]
-      #print StepCounter
-      #print pin
-      if Seq[StepCounter][pin]!=0:
-        #print " Step %i Enable %i" %(StepCounter,xpin)
-        GPIO.output(xpin, True)
-      else:
-        GPIO.output(xpin, False)
+  if START:
+    i = 0
+    for StepPins in motors:
+      if i == 0:
+        i = 1
+      else: i = 0
+      for pin in range(0, 4):
+        xpin = StepPins[pin]
+        #print StepCounter
+        #print pin
+        if Seq[StepCounter[i]][pin]!=0:
+          #print " Step %i Enable %i" %(StepCounter,xpin)
+          GPIO.output(xpin, True)
+        else:
+          GPIO.output(xpin, False)
 
-  StepCounter += StepDir
+    for i in range(0,2):
+      StepCounter[i] += StepDir[i]
 
-  # If we reach the end of the sequence
-  # start again
-  if (StepCounter>=StepCount):
-    StepCounter = 0
-  if (StepCounter<0):
-    StepCounter = StepCount
+      # If we reach the end of the sequence
+      # start again
+      if (StepCounter[i]>=StepCount[i]):
+        StepCounter[i] = 0
+      if (StepCounter[i]<0):
+        StepCounter[i] = StepCount[i]
 
-  # Wait before moving on
-  time.sleep(WaitTime)
+    # Wait before moving on
+    time.sleep(WaitTime)
