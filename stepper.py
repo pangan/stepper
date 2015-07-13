@@ -90,19 +90,19 @@ while True:
   if read_key == 'x':
       GPIO.cleanup()
       exit(1)
-  elif read_key == chr(65):
+  elif read_key in [chr(65),'w']:
     ''' UP '''
     StepDir = [1,1]
     read_key = ''
-  elif read_key == chr(66):
+  elif read_key in [chr(66),'s']:
     ''' Down '''
     StepDir = [-1,-1]
     read_key = ''
-  elif read_key == chr(67):
+  elif read_key in [chr(67),'d']:
     ''' Right '''
     StepDir = [1,-1]
     read_key = ''
-  elif read_key == chr(68):
+  elif read_key in [chr(68),'a']:
     ''' Left ''' 
     StepDir = [-1,1]
     read_key = '' 
