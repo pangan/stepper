@@ -3,10 +3,9 @@ import time
 import RPi.GPIO as GPIO
 import tty, termios
 import threading
-import socket
-import re
 import datetime 
 
+from webinterface import WebServer
 
 def getchar():
   #Returns a single character from standard input
@@ -87,8 +86,45 @@ START = False
 
 threading.Thread(target = getchar).start()
 print "Press x to exit!"
+
+webif = WebServer(port=8080,template='template.html')
+
+
+
+
+
 while True:
   
+  data_dic = webif.read()
+  if data_dic:
+
+    if 'c' in data_dic:
+        if data_dic['c'] == 'forward':
+            print >>sys.stderr, '[%s] FORWARD   ' %time_stamp(), webif.client
+            read_key = 'w'
+        if data_dic['c'] == 'reverce':
+            print >>sys.stderr, '[%s] REVERCE   ' %time_stamp(), webif.client
+            read_key = 's'
+        if data_dic['c'] == 'right':
+            print >>sys.stderr, '[%s] RIGHT     ' %time_stamp(), webif.client
+            read_key = 'd'
+        if data_dic['c'] == 'left':
+            print >>sys.stderr, '[%s] LEFT      ' %time_stamp(), webif.client
+            read_key = 'd'
+        if data_dic['c'] == 'startstop':
+            print >>sys.stderr, '[%s] START/STOP' %time_stamp(), webif.client
+            read_key = chr(13)
+
+    if 'x' in data_dic:
+        
+        print >>sys.stderr, '[%s] EXIT' %time_stamp(), webif.client
+        
+        webif.close()
+        read_key = 'x'
+
+
+
+
   if read_key == 'x':
       GPIO.cleanup()
       exit(1)
