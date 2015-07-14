@@ -8,7 +8,6 @@ import re
 import datetime 
 
 
-
 def getchar():
   #Returns a single character from standard input
   fd = sys.stdin.fileno()
