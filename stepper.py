@@ -17,117 +17,72 @@ def getchar():
   finally:
     termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
   
-  global read_key
-  read_key = ch
+  if ch:
+    global read_key
+    read_key = ch
     
   if ch !='x':
     #print ord(ch)
     threading.Thread(target = getchar).start()
 
 
+def time_stamp():
+    return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 
-# Use BCM GPIO references
-# instead of physical pin numbers
-GPIO.setmode(GPIO.BCM)
+def getweb():
 
-# Define GPIO signals to use
-# Physical pins 11,15,16,18
-# GPIO17,GPIO22,GPIO23,GPIO24
-#if sys.argv[2]=='l':
-#StepPins = [4,17,27,22]
-#else:
-motors = [[18,23,24,25],[4,17,27,22]]
-
-# Set all pins as output
-for StepPins in motors:
-  for pin in StepPins:
-    print "Setup pins"
-    GPIO.setup(pin,GPIO.OUT)
-    GPIO.output(pin, False)
-
-# Define advanced sequence
-# as shown in manufacturers datasheet
-
-Seq = [[1,0,0,0],
-       [1,1,0,0],
-       [0,1,0,0],
-       [0,1,1,0],
-       [0,0,1,0],
-       [0,0,1,1],
-       [0,0,0,1],
-       [1,0,0,1]
-       
-]
-
-StepCount = [len(Seq)-1, len(Seq)-1]
-#if sys.argv[3]=='b':
-#	StepDir = -1 # Set to 1 or 2 for clockwise
-            # Set to -1 or -2 for anti-clockwise
-#else:
-StepDir= [1,1]
-
-# Read wait time from command line
-if len(sys.argv)>1:
-  WaitTime = int(sys.argv[1])/float(1000)
-else:
-  WaitTime = 1/float(1000)
-
-# Initialise variables
-StepCounter = [0,0]
-
-
-
-
-# Start main loop
-global read_key
-read_key = ''
-START = False
-
-threading.Thread(target = getchar).start()
-print "Press x to exit!"
-
-webif = WebServer(port=8080,template='template.html')
-
-
-
-
-
-while True:
   
   data_dic = webif.read()
+  
+  read_web = None
   if data_dic:
 
     if 'c' in data_dic:
-        if data_dic['c'] == 'forward':
-            print >>sys.stderr, '[%s] FORWARD   ' %time_stamp(), webif.client
-            read_key = 'w'
-        if data_dic['c'] == 'reverce':
-            print >>sys.stderr, '[%s] REVERCE   ' %time_stamp(), webif.client
-            read_key = 's'
-        if data_dic['c'] == 'right':
-            print >>sys.stderr, '[%s] RIGHT     ' %time_stamp(), webif.client
-            read_key = 'd'
-        if data_dic['c'] == 'left':
-            print >>sys.stderr, '[%s] LEFT      ' %time_stamp(), webif.client
-            read_key = 'd'
-        if data_dic['c'] == 'startstop':
-            print >>sys.stderr, '[%s] START/STOP' %time_stamp(), webif.client
-            read_key = chr(13)
+      if data_dic['c'] == 'forward':
+        print >>sys.stderr, '[%s] FORWARD   ' %time_stamp(), webif.client
+        read_web = 'w'
+        
+      if data_dic['c'] == 'reverce':
+        print >>sys.stderr, '[%s] REVERCE   ' %time_stamp(), webif.client
+        read_web = 's'
+        
+      if data_dic['c'] == 'right':
+        print >>sys.stderr, '[%s] RIGHT     ' %time_stamp(), webif.client
+        read_web = 'd'
+        
+      if data_dic['c'] == 'left':
+        print >>sys.stderr, '[%s] LEFT      ' %time_stamp(), webif.client
+        read_web = 'd'
+        
+      if data_dic['c'] == 'startstop':
+        #print >>sys.stderr, '[%s] START/STOP' %time_stamp(), webif.client
+        read_web = chr(13)
+        
 
     if 'x' in data_dic:
-        
-        print >>sys.stderr, '[%s] EXIT' %time_stamp(), webif.client
-        
-        webif.close()
-        read_key = 'x'
+      print >>sys.stderr, '[%s] EXIT' %time_stamp(), webif.client
+      
+      webif.close()
+      read_web = 'x'
+    else:
+      if read_web:
+        global read_key
+        print "---->"
+        read_key = read_web
+      
+    
 
 
-
+def motor():
+  
+  global read_key
+  global START
+  global StepDir
 
   if read_key == 'x':
-      GPIO.cleanup()
-      exit(1)
+    GPIO.cleanup()
+    exit(1)
   elif read_key in [chr(65),'w']:
     ''' UP '''
     StepDir = [1,1]
@@ -181,3 +136,85 @@ while True:
 
     # Wait before moving on
     time.sleep(WaitTime)
+
+  threading.Thread(target = motor).start()
+  
+
+
+# Use BCM GPIO references
+# instead of physical pin numbers
+GPIO.setmode(GPIO.BCM)
+
+# Define GPIO signals to use
+# Physical pins 11,15,16,18
+# GPIO17,GPIO22,GPIO23,GPIO24
+#if sys.argv[2]=='l':
+#StepPins = [4,17,27,22]
+#else:
+motors = [[18,23,24,25],[4,17,27,22]]
+
+# Set all pins as output
+for StepPins in motors:
+  for pin in StepPins:
+    print "Setup pins"
+    GPIO.setup(pin,GPIO.OUT)
+    GPIO.output(pin, False)
+
+# Define advanced sequence
+# as shown in manufacturers datasheet
+
+Seq = [[1,0,0,0],
+       [1,1,0,0],
+       [0,1,0,0],
+       [0,1,1,0],
+       [0,0,1,0],
+       [0,0,1,1],
+       [0,0,0,1],
+       [1,0,0,1]
+       
+]
+
+StepCount = [len(Seq)-1, len(Seq)-1]
+#if sys.argv[3]=='b':
+#	StepDir = -1 # Set to 1 or 2 for clockwise
+            # Set to -1 or -2 for anti-clockwise
+#else:
+global StepDir
+
+StepDir= [1,1]
+
+# Read wait time from command line
+if len(sys.argv)>1:
+  WaitTime = int(sys.argv[1])/float(1000)
+else:
+  WaitTime = 1/float(1000)
+
+# Initialise variables
+StepCounter = [0,0]
+
+
+
+
+# Start main loop
+global read_key
+read_key = ''
+global START
+START = False
+
+threading.Thread(target = getchar).start()
+print "Press x to exit!"
+
+#global webif
+webif = WebServer(port=8080,template='template.html')
+
+#threading.Thread(target = getweb).start()
+
+threading.Thread(target = motor).start()
+
+
+while True:
+  
+  
+  getweb()
+
+  
