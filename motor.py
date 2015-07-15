@@ -2,6 +2,7 @@ import random
 import logging
 import sys, time
 from lib import Daemon
+from lib import CInterface
 import os.path
 
 
@@ -13,25 +14,11 @@ def init_log(log_file):
 
 class MyDaemon(Daemon):
 	
-	def read_command(self,cfile):
-		if os.path.isfile(cfile):
-			try:
-				f = open(cfile,'r')
-				cc = f.read().strip()
-				f.close()
-				os.remove(cfile)
-				logging.info(cc)
-				return cc
-			except Exception:
-				logging.warning("NO File!")
-				return None
-		else:
-			return None
 
 	def run(self):
 		m_command = None
 		while True:
-			m_command = self.read_command('/tmp/m_command.txt')
+			m_command = ci.read_command()
 			
 			if m_command == 'FORWARD':
 				logging.info("forward .....")
@@ -48,6 +35,7 @@ class MyDaemon(Daemon):
 			#logging.info("-> %s" %m_command)
 
 
+ci = CInterface()
 
 init_log('%s.log' %sys.argv[0])
 
