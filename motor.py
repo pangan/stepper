@@ -2,7 +2,8 @@ import random
 import logging
 import sys, time
 from lib import Daemon
-import signal
+import os.path
+
 
 
 def init_log(log_file):
@@ -12,27 +13,33 @@ def init_log(log_file):
 
 class MyDaemon(Daemon):
 	
-	def read_command(self):
-		try:
-			f = open('/tmp/m_command.txt','r')
-			cc = f.read()
-			logging.info("%s" %cc)
-			return cc
-		except Exception:
-			logging.warning("NO FIles")
+	def read_command(self,cfile):
+
+		if os.path.isfile(cfile):
+			try:
+				f = open(cfile,'r')
+				cc = f.read()
+				f.close()
+				os.remove(cfile)
+				return cc
+			except Exception:
+				logging.warning("NO File!")
+				return None
+		else:
 			return None
 
 	def run(self):
+		m_command = None
 		while True:
-			
+			file_command = self.read_command('/tmp/m_command.txt')
+			if file_command:
+				m_command = file_command
+
 			time.sleep(3)
-			logging.info("-> %s" %self.read_command())
+			logging.info("-> %s" %m_command)
 
 
 
-
-global amir
-amir=None 
 init_log('%s.log' %sys.argv[0])
 
 if __name__ == "__main__":
@@ -66,9 +73,6 @@ if __name__ == "__main__":
 				print "Service is running [pid:%s]" %pid
 			else:
 				print "Service is stopped!"
-		elif 'command' == sys.argv[1]:
-			signal.SIGINT
-
 		else:
 			print "Unknown command!"
 			sys.exit(2)
