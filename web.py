@@ -1,6 +1,11 @@
 from lib import WebServer
 import sys
 import datetime 
+import signal
+
+def myhandler(signum, frame):
+	webif.close()
+	exit(1)
 
 def time_stamp():
     return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -9,11 +14,14 @@ def send_command(cmd):
 	f = open('/tmp/m_command.txt','w')
 	f.write(cmd)
 	f.close()
-
+	
 
 def getweb():
 
-  data_dic = webif.read()
+  try:
+  	data_dic = webif.read()
+  except Exception:
+  	exit(1)
     
   if data_dic:
 
@@ -42,8 +50,7 @@ def getweb():
       print >>sys.stderr, '[%s] EXIT' %time_stamp(), webif.client
       webif.close()
       
-    
-
+signal.signal(signal.SIGINT, myhandler)
 
 webif = WebServer(port=8080,template='template.html')
 print "Press Ctrl+c to exit!"
