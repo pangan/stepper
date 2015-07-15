@@ -14,13 +14,13 @@ def init_log(log_file):
 class MyDaemon(Daemon):
 	
 	def read_command(self,cfile):
-
 		if os.path.isfile(cfile):
 			try:
 				f = open(cfile,'r')
-				cc = f.read()
+				cc = f.read().strip()
 				f.close()
 				os.remove(cfile)
+				logging.info(cc)
 				return cc
 			except Exception:
 				logging.warning("NO File!")
@@ -31,12 +31,21 @@ class MyDaemon(Daemon):
 	def run(self):
 		m_command = None
 		while True:
-			file_command = self.read_command('/tmp/m_command.txt')
-			if file_command:
-				m_command = file_command
+			m_command = self.read_command('/tmp/m_command.txt')
+			
+			if m_command == 'FORWARD':
+				logging.info("forward .....")
+			elif m_command == 'REVERCE':
+				logging.info("reverce .....")
+			elif m_command == 'RIGHT':
+				logging.info("right .....")
+			elif m_command == 'LEFT':
+				logging.info("left .....")
+			elif m_command == 'STARTSTOP':
+				logging.info("startstop .....")
 
-			time.sleep(3)
-			logging.info("-> %s" %m_command)
+			#time.sleep(3)
+			#logging.info("-> %s" %m_command)
 
 
 
