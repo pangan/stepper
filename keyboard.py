@@ -6,7 +6,7 @@ By Amir Mofakhar <pangan@gmail.com>
 import tty, termios
 import threading
 import sys
-
+from lib import CInterface
 
 def getchar():
   #Returns a single character from standard input
@@ -26,13 +26,10 @@ def getchar():
     #print ord(ch)
     threading.Thread(target = getchar).start()
 
-def send_command(cmd):
-	f = open('/tmp/m_command.txt','w')
-	f.write(cmd)
-	f.close()
-
 
 threading.Thread(target = getchar).start()
+
+ci = CInterface()
 
 print "Press x to exit!"
 global read_key
@@ -45,25 +42,25 @@ while True:
   	elif read_key in [chr(65),'w']:
   	   	''' UP '''
   	   	print "UP"
-  	   	send_command("FORWARD")
+  	   	ci.send_command("FORWARD")
   	   	read_key = ''
   	elif read_key in [chr(66),'s']:
   		''' Down '''
   		print "DOWN"
-  		send_command("REVERCE")
+  		ci.send_command("REVERCE")
   		read_key = ''
   	elif read_key in [chr(67),'d']:
   		''' Right '''
   		print "RIGHT"
-  		send_command("RIGHT")
+  		ci.send_command("RIGHT")
   		read_key = ''
   	elif read_key in [chr(68),'a']:
   		''' Left '''
   		print "LEFT"
-  		send_command("LEFT") 
+  		ci.send_command("LEFT") 
   		read_key = '' 
   	elif read_key == chr(13):
   		'''Start/Stop'''
-  		send_command("STARTSTOP")
+  		ci.send_command("STARTSTOP")
   		print "START / STOP"
   		read_key = ''
