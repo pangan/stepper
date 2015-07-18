@@ -31,7 +31,6 @@ class MyDaemon(Daemon):
 		# Set all pins as output
 		for StepPins in motors:
 		  for pin in StepPins:
-		    print "Setup pins"
 		    GPIO.setup(pin,GPIO.OUT)
 		    GPIO.output(pin, False)
 
@@ -110,8 +109,15 @@ class MyDaemon(Daemon):
 				logging.info("startstop .....")
 				if START:
 					START = False
+					GPIO.cleanup()
 				else:
 					START = True
+					GPIO.setmode(GPIO.BCM)
+					for StepPins in motors:
+						for pin in StepPins:
+							GPIO.setup(pin,GPIO.OUT)
+							GPIO.output(pin, False)
+
 			
 			if START:
 				i = 0
