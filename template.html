@@ -1,0 +1,199 @@
+<html>
+	<head>
+		<style type="text/css">
+		body {font-family: Arial}
+		td {height: 100px; width: 100px;}
+		.forward {
+		  background: #3498db;
+		  background-image: -webkit-linear-gradient(top, #3498db, #2980b9);
+		  background-image: -moz-linear-gradient(top, #3498db, #2980b9);
+		  background-image: -ms-linear-gradient(top, #3498db, #2980b9);
+		  background-image: -o-linear-gradient(top, #3498db, #2980b9);
+		  background-image: linear-gradient(to bottom, #3498db, #2980b9);
+		  -webkit-border-radius: 30;
+		  -moz-border-radius: 30;
+		  border-radius: 30px;
+		  -webkit-box-shadow: 0px 1px 3px #666666;
+		  -moz-box-shadow: 0px 1px 3px #666666;
+		  box-shadow: 0px 1px 3px #666666;
+		  font-family: Arial;
+		  color: #ffffff;
+		  font-size: 20px;
+		  padding: 10px 20px 10px 20px;
+		  text-decoration: none;
+		}
+		.forward:hover {
+		  background: #3cb0fd;
+		  background-image: -webkit-linear-gradient(top, #3cb0fd, #3498db);
+		  background-image: -moz-linear-gradient(top, #3cb0fd, #3498db);
+		  background-image: -ms-linear-gradient(top, #3cb0fd, #3498db);
+		  background-image: -o-linear-gradient(top, #3cb0fd, #3498db);
+		  background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
+		  text-decoration: none;
+		}
+
+		.reverce {
+		  background: #d9344a;
+		  background-image: -webkit-linear-gradient(top, #d9344a, #b82b5a);
+		  background-image: -moz-linear-gradient(top, #d9344a, #b82b5a);
+		  background-image: -ms-linear-gradient(top, #d9344a, #b82b5a);
+		  background-image: -o-linear-gradient(top, #d9344a, #b82b5a);
+		  background-image: linear-gradient(to bottom, #d9344a, #b82b5a);
+		  -webkit-border-radius: 30;
+		  -moz-border-radius: 30;
+		  border-radius: 30px;
+		  -webkit-box-shadow: 0px 1px 3px #666666;
+		  -moz-box-shadow: 0px 1px 3px #666666;
+		  box-shadow: 0px 1px 3px #666666;
+		  font-family: Arial;
+		  color: #ffffff;
+		  font-size: 20px;
+		  padding: 10px 20px 10px 20px;
+		  text-decoration: none;
+		}
+		.reverce:hover {
+		  background: #3cb0fd;
+		  background-image: -webkit-linear-gradient(top, #3cb0fd, #3498db);
+		  background-image: -moz-linear-gradient(top, #3cb0fd, #3498db);
+		  background-image: -ms-linear-gradient(top, #3cb0fd, #3498db);
+		  background-image: -o-linear-gradient(top, #3cb0fd, #3498db);
+		  background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
+		  text-decoration: none;
+		}
+
+		.right {
+		  background: #34d93f;
+		  background-image: -webkit-linear-gradient(top, #34d93f, #77b82c);
+		  background-image: -moz-linear-gradient(top, #34d93f, #77b82c);
+		  background-image: -ms-linear-gradient(top, #34d93f, #77b82c);
+		  background-image: -o-linear-gradient(top, #34d93f, #77b82c);
+		  background-image: linear-gradient(to bottom, #34d93f, #77b82c);
+		  -webkit-border-radius: 30;
+		  -moz-border-radius: 30;
+		  border-radius: 30px;
+		  -webkit-box-shadow: 0px 1px 3px #666666;
+		  -moz-box-shadow: 0px 1px 3px #666666;
+		  box-shadow: 0px 1px 3px #666666;
+		  font-family: Arial;
+		  color: #000000;
+		  text-shadow: 2px 1px 3px #ffffff;
+		  font-size: 20px;
+		  padding: 10px 20px 10px 20px;
+		  text-decoration: none;
+		}
+		.right:hover {
+		  background: #3cb0fd;
+		  background-image: -webkit-linear-gradient(top, #3cb0fd, #3498db);
+		  background-image: -moz-linear-gradient(top, #3cb0fd, #3498db);
+		  background-image: -ms-linear-gradient(top, #3cb0fd, #3498db);
+		  background-image: -o-linear-gradient(top, #3cb0fd, #3498db);
+		  background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
+		  text-decoration: none;
+		}
+
+		.left {
+		  background: #e2f01f;
+		  background-image: -webkit-linear-gradient(top, #e2f01f, #e1e64e);
+		  background-image: -moz-linear-gradient(top, #e2f01f, #e1e64e);
+		  background-image: -ms-linear-gradient(top, #e2f01f, #e1e64e);
+		  background-image: -o-linear-gradient(top, #e2f01f, #e1e64e);
+		  background-image: linear-gradient(to bottom, #e2f01f, #e1e64e);
+		  -webkit-border-radius: 30;
+		  -moz-border-radius: 30;
+		  border-radius: 30px;
+		  -webkit-box-shadow: 0px 1px 3px #666666;
+		  -moz-box-shadow: 0px 1px 3px #666666;
+		  box-shadow: 0px 1px 3px #666666;
+		  font-family: Arial;
+		  color: #000000;
+		  text-shadow: 2px 1px 3px #ffffff;
+		  font-size: 20px;
+		  padding: 10px 20px 10px 20px;
+		  text-decoration: none;
+		}
+		.left:hover {
+		  background: #3cb0fd;
+		  background-image: -webkit-linear-gradient(top, #3cb0fd, #3498db);
+		  background-image: -moz-linear-gradient(top, #3cb0fd, #3498db);
+		  background-image: -ms-linear-gradient(top, #3cb0fd, #3498db);
+		  background-image: -o-linear-gradient(top, #3cb0fd, #3498db);
+		  background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
+		  text-decoration: none;
+		}
+
+		.startstop {
+		  background: #de9910;
+		  background-image: -webkit-linear-gradient(top, #de9910, #e6c84e);
+		  background-image: -moz-linear-gradient(top, #de9910, #e6c84e);
+		  background-image: -ms-linear-gradient(top, #de9910, #e6c84e);
+		  background-image: -o-linear-gradient(top, #de9910, #e6c84e);
+		  background-image: linear-gradient(to bottom, #de9910, #e6c84e);
+		  -webkit-border-radius: 30;
+		  -moz-border-radius: 30;
+		  border-radius: 30px;
+		  -webkit-box-shadow: 0px 1px 3px #666666;
+		  -moz-box-shadow: 0px 1px 3px #666666;
+		  box-shadow: 0px 1px 3px #666666;
+		  text-shadow: 2px 1px 3px #ffffff;
+		  font-family: Arial;
+		  color: #00000000;
+		  font-size: 20px;
+		  padding: 30px 20px 30px 20px;
+		  text-decoration: none;
+		}
+		.startstop:hover {
+		  background: #3cb0fd;
+		  background-image: -webkit-linear-gradient(top, #3cb0fd, #3498db);
+		  background-image: -moz-linear-gradient(top, #3cb0fd, #3498db);
+		  background-image: -ms-linear-gradient(top, #3cb0fd, #3498db);
+		  background-image: -o-linear-gradient(top, #3cb0fd, #3498db);
+		  background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
+		  text-decoration: none;
+		}
+		</style>
+		<title>Remote Controller</title>
+		<meta name=viewport content="width=device-width, initial-scale=1">
+
+	</head>
+	<body>
+		<center><b>Robot controll by mobile</b></center>
+		<hr>
+		<table align="center" border=0>
+			<tr>
+				<td>
+				</td>
+				<td align="center">
+					<button onclick="location='?c=forward'" class="forward">FORWARD</button>
+				</td>
+				<td>
+				</td>
+			</tr>
+			<tr>
+				<td align="center">
+					<button onclick="location='?c=left'" class="left">LEFT</button>
+				</td>
+				<td align="center">
+					<button onclick="location='?c=startstop'" class="startstop">START / STOP</button>
+				</td>
+				<td align="center">
+					<button onclick="location='?c=right'" class="right">RIGHT</button>
+				</td>
+			</tr>
+			<tr>
+				<td>
+				</td>
+				<td align="center">
+					<button onclick="location='?c=reverce'" class="reverce">REVERCE</button>
+				</td>
+				<td>
+				</td>
+			</tr>
+			
+
+		</table>
+		<hr>
+		Copyright 2015 By Amir
+
+	</body>
+
+</html>
